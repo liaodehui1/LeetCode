@@ -104,10 +104,13 @@ function quickSort(nums, left, right) {
       i++
     }
   }
-  swap(nums, pivot, j) // 确定一个数
-  pivot = j
+  // j移动过/没移动过
+  if (j < pivot - 1 || (j === pivot - 1 && nums[j] > nums[pivot])) {
+    swap(nums, pivot, j) // 确定一个数
+    pivot = j
+  }
   quickSort(nums, left, pivot - 1) // 排左边
   quickSort(nums, pivot + 1, right) // 排右边
 }
 
-console.log(sortArray([5,1,1,2,0,0]))
+console.log(sortArray([1,1,2,0,0,5]))
