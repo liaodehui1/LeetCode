@@ -4,7 +4,6 @@ var levelOrder = function(root) {
   let queue = [], res = [], count = 1
   queue.push([root, 1]) // 从1开始
   while(queue.length) {
-    // console.log(queue)
     let [node, level] = queue.shift()
     if(res[level - 1]) {
       if (level & 1) { // 奇数层
