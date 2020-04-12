@@ -1,5 +1,5 @@
 var sortArray = function(nums) {
-  console.log(nums)
+  // console.log(nums)
   // return bubbleSort(nums)
   // return selectionSort(nums)
   // return insertionSort(nums)
@@ -93,9 +93,9 @@ function merge(arr1, arr2) {
 }
 
 function quickSort(nums, left, right) {
-  if (left >= right) return; // 排一项，不需要
-  let pivot = right // 参考点
-  let i = left, j = pivot - 1 // 将i到j分为两部分：大于pivot和小于pivot
+  if(left >= right) return;
+  let pivot = left // 参考点
+  let i = pivot + 1, j = right
   while(i < j) {
     if (nums[i] > nums[pivot]) {
       swap(nums, i, j)
@@ -104,13 +104,15 @@ function quickSort(nums, left, right) {
       i++
     }
   }
-  // j移动过/没移动过
-  if (j < pivot - 1 || (j === pivot - 1 && nums[j] > nums[pivot])) {
-    swap(nums, pivot, j) // 确定一个数
-    pivot = j
-  }
+  // i未移动且nums[i] < nums[pivot]交换
+  // i移动了此时i位于第一个大于nums[pivot]的数所在位置，应该和i-1位置数交换
+  i = nums[i] < nums[pivot] ? i : i - 1
+  swap(nums, pivot, i)
+  pivot = i
   quickSort(nums, left, pivot - 1) // 排左边
   quickSort(nums, pivot + 1, right) // 排右边
 }
 
+console.log(sortArray([0,1,1,2,0]))
 console.log(sortArray([1,1,2,0,0,5]))
+console.log(sortArray([4, 5, 6]))
