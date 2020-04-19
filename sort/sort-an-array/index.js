@@ -4,7 +4,8 @@ var sortArray = function(nums) {
   // return selectionSort(nums)
   // return insertionSort(nums)
   // return mergeSort(nums)
-  quickSort(nums, 0, nums.length - 1)
+  // quickSort(nums, 0, nums.length - 1)
+  heapSort(nums)
   return nums
 };
 
@@ -111,6 +112,31 @@ function quickSort(nums, left, right) {
   pivot = i
   quickSort(nums, left, pivot - 1) // 排左边
   quickSort(nums, pivot + 1, right) // 排右边
+}
+
+function heapSort(arr) {
+  // 从下往上，建初始堆(大根堆：根节点最大)
+  for(let i = Math.floor(arr.length / 2 - 1); i >= 0; i--) {
+    build(arr, i, arr.length)
+  }
+  // 调整堆
+  for(let i = arr.length - 1; i > 0; i--) {
+    swap(arr, 0, i) // 交换后，i位置数为确定的最大数
+    build(arr, 0, i - 1) // 对0 ~ i-1重建堆
+  }
+  return arr
+}
+function build(arr, i, len) {
+  for(let j = 2 * i + 1; j <= len;) { // j 表示左子节点
+    let temp = j + 1 <= len && arr[j + 1] > arr[j] ? j + 1 : j // 取左右子节点最大的那个
+    if(arr[i] < arr[temp]) { // 如果最大的子节点大于当前节点，则交换
+      swap(arr, i, temp) // 交换
+      i = temp // 改变了子节点，可能会影响以子节点为根节点的堆，重调
+      j = 2 * i + 1 // j 表示此时i的左子节点
+    }else { // 否则，已完成：以子节点为根节点已经符合堆
+      break
+    }
+  }
 }
 
 console.log(sortArray([0,1,1,2,0]))
