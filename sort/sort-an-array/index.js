@@ -115,10 +115,12 @@ function quickSort(nums, left, right) {
 }
 
 function heapSort(arr) {
+  console.log(arr)
   // 从下往上，建初始堆(大根堆：根节点最大)
   for(let i = Math.floor(arr.length / 2 - 1); i >= 0; i--) {
-    build(arr, i, arr.length)
+    build(arr, i, arr.length - 1)
   }
+  console.log(arr)
   // 调整堆
   for(let i = arr.length - 1; i > 0; i--) {
     swap(arr, 0, i) // 交换后，i位置数为确定的最大数
@@ -139,6 +141,11 @@ function build(arr, i, len) {
   }
 }
 
-console.log(sortArray([0,1,1,2,0]))
-console.log(sortArray([1,1,2,0,0,5]))
-console.log(sortArray([4, 5, 6]))
+// console.log(sortArray([0,1,1,2,0]))
+// console.log(sortArray([1,1,2,0,0,5]))
+// console.log(sortArray([4, 5, 6]))
+console.log(sortArray([
+  5, 4, 10, 6,  4, 6, 7,
+  6, 4,  3, 2, 12, 5, 8,
+  4, 5,  5, 2,  1, 1
+]))
