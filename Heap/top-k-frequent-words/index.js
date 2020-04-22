@@ -9,12 +9,30 @@ var topKFrequent = function(words, k) {
     }
   }
 
-  let arr = []
+  // let arr = []
+  // for(let word of map) {
+  //   arr.push(word)
+  // }
+  // let res = mergeSort(arr)
+  // return res.slice(0, k).map(item => item[0])
+
+  let arr = [], count = 0
   for(let word of map) {
-    arr.push(word)
+    count++
+    if(arr.length < k) {
+      arr.push(word)
+    }
+    // 建一个k大小的堆
+    if(arr.length === k) heapSort(arr)
+     // 遍历后面的
+    if(count > k) {
+      if(word[1] > arr[0][1] || (word[1] === arr[0][1] && word[0] < arr[0][0])) {
+        arr[0] = word
+        heapSort(arr)
+      }
+    }
   }
-  let res = mergeSort(arr)
-  return res.slice(0, k).map(item => item[0])
+  return arr.map(item => item[0]).reverse()
 };
 
 function mergeSort(arr) {
@@ -62,4 +80,38 @@ function merge(lleft, rright) {
   return res
 }
 
+function heapSort(arr) {
+  for(let i = Math.floor(arr.length / 2 - 1); i >=0; i--) {
+    build(arr, i, arr.length - 1)
+  }
+  for(let i = arr.length - 1; i > 0; i--) {
+    // 大的在后面
+    swap(arr, 0, i)
+    // console.log('---', arr)
+    build(arr, 0, i - 1)
+    // console.log('+++', arr)
+  }
+}
+
+function build(arr, i, len) {
+  for(let j = 2 * i + 1; j <= len; j = 2 * i + 1) {
+    // j + 1超出范围 或 j > j + 1
+    let temp = j + 1 > len || compare(arr, j, j + 1) ? j : j + 1
+    if(compare(arr, temp, i)) {
+      swap(arr, temp, i)
+      i = temp
+    }else {
+      break
+    }
+  }
+}
+function compare(arr, i, j) {
+  // i > j 或 i === j 但 i字母小于j字母：往上走
+  return (arr[i][1] > arr[j][1] || (arr[i][1] === arr[j][1] && arr[i][0] < arr[j][0]))
+}
+function swap(arr, i, j) {
+  [arr[i], arr[j]] = [arr[j], arr[i]]
+}
+
 console.log(topKFrequent(["i", "love", "leetcode", "i", "love", "coding"], 3))
+console.log(topKFrequent(["the", "day", "is", "sunny", "the", "the", "the", "sunny", "is", "is"], 4))
