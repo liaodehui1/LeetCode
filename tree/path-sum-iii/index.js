@@ -20,3 +20,22 @@ function search(node, sum, res) {
   search(node.left, sum, res)
   search(node.right, sum, res)
 }
+
+// 前缀和：当前节点到根节点的和
+var pathSum = function(root, sum) {
+  let res = 0, prefixSum = [0] // 求的是0之后节点到curSum处的和
+  function worker(node) {
+    if(!node) return 0;
+    let curSum = prefixSum[prefixSum.length - 1] + node.val
+    let target = curSum - sum // 两节点之间的数(不包括target处节点，包含当前节点)之和等于sum
+    for(let i = 0; i < prefixSum.length; i++) {
+      if(prefixSum[i] === target) res++; // 因为有负数，可能有多个符合的target
+    }
+    prefixSum.push(curSum) // [1] 0
+    worker(node.left, curSum)
+    worker(node.right, curSum)
+    prefixSum.pop() // 回溯
+  }
+  worker(root, 0)
+  return res
+};
